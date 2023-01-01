@@ -15,11 +15,13 @@ import NavBar from "@/components/NavBar.vue";
 </script>
 
 <style lang="scss">
-* {
+:root {
 	--test-color: red;
 	--dark: #1d1d20;
 	--light: #e6e9ff;
 	--grey: #767a94;
+	--grey-rgb: 118, 122, 148;
+
 	--red: #f31a2d;
 	--blue: #10239e;
 	--yellow: #ebba17;
@@ -32,6 +34,7 @@ body {
 	overflow-y: hidden;
 	scrollbar-width: 0;
 	width: 100vw;
+	height: 100vh;
 }
 #app {
 	font-family: "Noto Sans JP", sans-serif;
@@ -39,6 +42,12 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+	height: 100%;
+}
+#app-container{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 /*nav {
   padding: 30px;

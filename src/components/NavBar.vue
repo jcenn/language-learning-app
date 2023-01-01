@@ -29,17 +29,19 @@ const onSidebarIconClick = () => {
 	display: flex;
 	justify-content: space-between;
 	.title-text {
+		margin-left: 25px;
 		line-height: $navbar-height;
 		font-size: $font-size;
 		color: var(--red);
-
-		@media (hover: hover) {
-			transition: font-size 0.3s ease-out;
-			&:hover {
-				font-size: calc($font-size + 3px);
-				cursor: pointer;
-			}
+		min-width: 235px;
+		
+		// @media (hover: hover) {
+		transition: font-size 0.3s ease-out;
+		&:hover {
+			font-size: calc($font-size + 3px);
+			cursor: pointer;
 		}
+		// }
 	}
 	.sidebar-container {
 		width: $navbar-height;
