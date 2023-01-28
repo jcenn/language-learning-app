@@ -30,19 +30,24 @@
 				<button @click="onNextQuestion">Next</button>
 			</div>
 			<div class="result-text">
-				<span>{{ currentQuestionIndex }} / {{ questions.length }}</span>
+				<span
+					>{{ currentQuestionIndex + 1 }} /
+					{{ questions.length }}</span
+				>
 			</div>
-			<!-- <div class="timer-container">
-				timer here
-				<hr />
-			</div> -->
+			<div class="timer-container">
+				<div
+					class="timer"
+					:class="{ 'no-transition': !isTimerAnimated }"
+				></div>
+			</div>
 		</div>
 	</div>
 	<div v-if="hasFinished" class="result-page-container">
 		<h3>You've finished</h3>
-		<br />
-		<span>your score: </span><br />
+		<span>your score: </span>
 		<span>{{ correctAnswerCount }} / {{ questions.length }}</span>
+		<button @click="onTryAgain">Try again!</button>
 	</div>
 </template>
 
@@ -55,13 +60,23 @@ const showCorrectAnswer = ref(false);
 const currentQuestion: Ref<Question | null> = ref(null);
 const selectedAnswer: Ref<String | null> = ref(null);
 const hasFinished = ref(false);
+const isTimerAnimated = ref(true);
 let questions: Question[] = [];
 let correctAnswerCount = 0;
 const currentQuestionIndex = ref(0);
 
 const questionService = new QuestionService();
-
+let timer: HTMLElement;
+const timerTime = 4;
+let currentTimeout: number | null;
 onMounted(() => {
+	timer = document.querySelector(".timer") as HTMLElement;
+	timer.style.transitionDuration = timerTime + "s";
+	hasFinished.value = false;
+	hasStarted.value = true;
+	currentQuestion.value = null;
+
+	isTimerAnimated.value = true;
 	questionService.FetchQuestions().then((data) => {
 		questions = data;
 		if (data.length > 0) {
@@ -70,24 +85,55 @@ onMounted(() => {
 	});
 });
 
+const Setup = () => {
+	hasFinished.value = false;
+	hasStarted.value = true;
+	currentQuestion.value = null;
+
+	isTimerAnimated.value = true;
+	questionService.FetchQuestions().then((data) => {
+		questions = data;
+		if (data.length > 0) {
+			currentQuestion.value = questions[0];
+		}
+	});
+};
+
 const onStart = () => {
 	hasStarted.value = true;
 };
 
-const onAnswer = (answer: String) => {
-	if (selectedAnswer.value != null) {
-		return;
+const resetTimer = () => {
+	if (currentTimeout != null) {
+		clearTimeout(currentTimeout);
 	}
+	isTimerAnimated.value = false;
+	timer.style.width = "100%";
+
+	//EXPLANATION: setting isTimerAnimated to true right away doesn't work (i guess css is rendered on a separate thread?)
+	//so we do a little hacky fix
+	currentTimeout = setTimeout(() => {
+		isTimerAnimated.value = true;
+	}, 100);
+};
+
+const onAnswer = (answer: String) => {
+	// if (selectedAnswer.value != null) {
+	// 	return;
+	// }
 	selectedAnswer.value = answer;
+	console.log(selectedAnswer.value);
 	showCorrectAnswer.value = true;
 	if (currentQuestion.value?.correctAnswer === answer) {
-		// console.log("correct!");
 		correctAnswerCount += 1;
-	} else {
-		// console.log(
-		// 	`incorrect, correct answer is ${currentQuestion.value?.correctAnswer}`
-		// );
 	}
+
+	isTimerAnimated.value = true;
+	timer.style.width = "0px";
+	console.log(selectedAnswer.value);
+	currentTimeout = setTimeout(() => {
+		onNextQuestion();
+	}, timerTime * 1000);
 };
 
 const isCorrectAnswer = (answer: String) => {
@@ -95,15 +141,40 @@ const isCorrectAnswer = (answer: String) => {
 };
 
 const onNextQuestion = () => {
+	resetTimer();
 	selectedAnswer.value = null;
 	showCorrectAnswer.value = false;
 	currentQuestionIndex.value += 1;
-	console.log(`current index: ${currentQuestionIndex.value}`);
+	// console.log(`current index: ${currentQuestionIndex.value}`);
 	if (currentQuestionIndex.value < questions.length) {
 		currentQuestion.value = questions[currentQuestionIndex.value];
 	} else {
 		hasFinished.value = true;
 	}
+};
+
+const onTryAgain = () => {
+	hasStarted.value = true;
+	hasFinished.value = false;
+	console.log("a");
+	setTimeout(() => {
+		timer = document.querySelector(".timer") as HTMLElement;
+		timer.style.transitionDuration = timerTime + "s";
+		console.log("b");
+	
+		correctAnswerCount = 0;
+		currentQuestionIndex.value = 0;
+		currentQuestion.value = null;
+		questionService.FetchQuestions().then((data) => {
+			questions = data;
+			if (data.length > 0) {
+				currentQuestion.value = questions[0];
+			}
+		});
+	}, 200);
+	resetTimer();
+
+	// Setup();
 };
 </script>
 
@@ -170,6 +241,28 @@ const onNextQuestion = () => {
 				}
 			}
 		}
+
+		.timer-container {
+			padding: 0 50px;
+			.timer {
+				width: 100%;
+				height: 10px;
+				background-color: var(--light);
+				transition: width linear;
+			}
+			.timer.no-transition {
+				transition: none !important;
+			}
+		}
+	}
+}
+.result-page-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	& button {
+		width: 50px;
 	}
 }
 </style>
