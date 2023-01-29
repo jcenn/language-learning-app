@@ -118,9 +118,9 @@ const resetTimer = () => {
 };
 
 const onAnswer = (answer: String) => {
-	// if (selectedAnswer.value != null) {
-	// 	return;
-	// }
+	if (selectedAnswer.value != null) {
+		return;
+	}
 	selectedAnswer.value = answer;
 	showCorrectAnswer.value = true;
 	if (currentQuestion.value?.correctAnswer === answer) {
