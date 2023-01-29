@@ -4,7 +4,7 @@
 			<LoadingScreen @on-go="onLoadingScreenClosed"></LoadingScreen>
 		</div>
 		<div v-show="isLoaded" class="homepage-main">
-			<h1>What would you like to learn today?</h1>
+			<h1>What would you like to practice today?</h1>
 			<div class="tiles">
 				<IconTile text="Hiragana" icon-text="あ" navigate-to="hiragana"/>
 				<IconTile text="Katakana" icon-text="ツ" navigate-to="katakana"/>
