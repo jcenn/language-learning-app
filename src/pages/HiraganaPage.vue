@@ -77,7 +77,7 @@ onMounted(() => {
 	currentQuestion.value = null;
 
 	isTimerAnimated.value = true;
-	questionService.FetchQuestions().then((data) => {
+	questionService.FetchHiraganaQuestions().then((data) => {
 		questions = data;
 		if (data.length > 0) {
 			currentQuestion.value = questions[0];
@@ -91,7 +91,7 @@ const Setup = () => {
 	currentQuestion.value = null;
 
 	isTimerAnimated.value = true;
-	questionService.FetchQuestions().then((data) => {
+	questionService.FetchHiraganaQuestions().then((data) => {
 		questions = data;
 		if (data.length > 0) {
 			currentQuestion.value = questions[0];
@@ -122,7 +122,6 @@ const onAnswer = (answer: String) => {
 	// 	return;
 	// }
 	selectedAnswer.value = answer;
-	console.log(selectedAnswer.value);
 	showCorrectAnswer.value = true;
 	if (currentQuestion.value?.correctAnswer === answer) {
 		correctAnswerCount += 1;
@@ -130,7 +129,6 @@ const onAnswer = (answer: String) => {
 
 	isTimerAnimated.value = true;
 	timer.style.width = "0px";
-	console.log(selectedAnswer.value);
 	currentTimeout = setTimeout(() => {
 		onNextQuestion();
 	}, timerTime * 1000);
@@ -145,7 +143,6 @@ const onNextQuestion = () => {
 	selectedAnswer.value = null;
 	showCorrectAnswer.value = false;
 	currentQuestionIndex.value += 1;
-	// console.log(`current index: ${currentQuestionIndex.value}`);
 	if (currentQuestionIndex.value < questions.length) {
 		currentQuestion.value = questions[currentQuestionIndex.value];
 	} else {
@@ -156,16 +153,14 @@ const onNextQuestion = () => {
 const onTryAgain = () => {
 	hasStarted.value = true;
 	hasFinished.value = false;
-	console.log("a");
 	setTimeout(() => {
 		timer = document.querySelector(".timer") as HTMLElement;
 		timer.style.transitionDuration = timerTime + "s";
-		console.log("b");
-	
+
 		correctAnswerCount = 0;
 		currentQuestionIndex.value = 0;
 		currentQuestion.value = null;
-		questionService.FetchQuestions().then((data) => {
+		questionService.FetchHiraganaQuestions().then((data) => {
 			questions = data;
 			if (data.length > 0) {
 				currentQuestion.value = questions[0];
