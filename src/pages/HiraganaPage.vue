@@ -77,7 +77,7 @@ onMounted(() => {
 	currentQuestion.value = null;
 
 	isTimerAnimated.value = true;
-	questionService.FetchHiraganaQuestions().then((data) => {
+	questionService.FetchHiraganaQuestions(true).then((data) => {
 		questions = data;
 		if (data.length > 0) {
 			currentQuestion.value = questions[0];
@@ -160,7 +160,7 @@ const onTryAgain = () => {
 		correctAnswerCount = 0;
 		currentQuestionIndex.value = 0;
 		currentQuestion.value = null;
-		questionService.FetchHiraganaQuestions().then((data) => {
+		questionService.FetchHiraganaQuestions(true).then((data) => {
 			questions = data;
 			if (data.length > 0) {
 				currentQuestion.value = questions[0];
