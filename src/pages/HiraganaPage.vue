@@ -1,10 +1,10 @@
 <template>
 	<div v-if="!hasFinished" class="hiragana-page-container">
-		<div v-if="!hasStarted" class="start-prompt">
+		<div :hidden="hasStarted" class="start-prompt">
 			<h2>Learn Hiragana here</h2>
 			<button class="start-button" @click="onStart">Start!</button>
 		</div>
-		<div v-else class="game-container">
+		<div :hidden="!hasStarted" class="game-container">
 			<h2 class="question-prompt">{{ currentQuestion?.promptText }}</h2>
 			<div class="question-text-container">
 				<h1 class="question-text">{{ currentQuestion?.iconText }}</h1>
@@ -43,6 +43,7 @@
 			</div>
 		</div>
 	</div>
+	<div :hidden="!isLoading" class="loading-icon-container"></div>
 	<div v-if="hasFinished" class="result-page-container">
 		<h3>You've finished</h3>
 		<span>your score: </span>
@@ -55,7 +56,7 @@
 import { onMounted, Ref, ref } from "vue";
 import Question from "@/dtos/question-dto";
 import { QuestionService } from "@/services/question-service";
-const hasStarted = ref(true);
+const hasStarted = ref(false);
 const showCorrectAnswer = ref(false);
 const currentQuestion: Ref<Question | null> = ref(null);
 const selectedAnswer: Ref<String | null> = ref(null);
@@ -69,11 +70,11 @@ const questionService = new QuestionService();
 let timer: HTMLElement;
 const timerTime = 4;
 let currentTimeout: number | null;
+const isLoading = ref(true);
 onMounted(() => {
 	timer = document.querySelector(".timer") as HTMLElement;
 	timer.style.transitionDuration = timerTime + "s";
 	hasFinished.value = false;
-	hasStarted.value = true;
 	currentQuestion.value = null;
 
 	isTimerAnimated.value = true;
@@ -82,22 +83,23 @@ onMounted(() => {
 		if (data.length > 0) {
 			currentQuestion.value = questions[0];
 		}
+		isLoading.value = false
 	});
 });
 
-const Setup = () => {
-	hasFinished.value = false;
-	hasStarted.value = true;
-	currentQuestion.value = null;
+// const Setup = () => {
+// 	hasFinished.value = false;
+// 	hasStarted.value = true;
+// 	currentQuestion.value = null;
 
-	isTimerAnimated.value = true;
-	questionService.FetchHiraganaQuestions().then((data) => {
-		questions = data;
-		if (data.length > 0) {
-			currentQuestion.value = questions[0];
-		}
-	});
-};
+// 	isTimerAnimated.value = true;
+// 	questionService.FetchHiraganaQuestions().then((data) => {
+// 		questions = data;
+// 		if (data.length > 0) {
+// 			currentQuestion.value = questions[0];
+// 		}
+// 	});
+// };
 
 const onStart = () => {
 	hasStarted.value = true;
@@ -151,7 +153,7 @@ const onNextQuestion = () => {
 };
 
 const onTryAgain = () => {
-	hasStarted.value = true;
+	hasStarted.value = false;
 	hasFinished.value = false;
 	setTimeout(() => {
 		timer = document.querySelector(".timer") as HTMLElement;
