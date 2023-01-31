@@ -19,7 +19,7 @@ import NavBar from "@/components/NavBar.vue";
 	--test-color: red;
 	--dark: #1d1d20;
 	--light: #e6e9ff;
-	--grey: #767a94;
+	--grey: #676a80;
 	--grey-rgb: 118, 122, 148;
 
 	--red: #f31a2d;

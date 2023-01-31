@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!hasFinished" class="hiragana-page-container">
 		<div :hidden="hasStarted" class="start-prompt">
-			<h2>Learn Hiragana here</h2>
+			<h1 class="title">Hiragana Practice</h1>
 			<!-- <button class="start-button" @click="onStart">Start!</button> -->
 			<LoadingScreen @on-go="onStart" text="Start!"></LoadingScreen>
 		</div>
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div class="action-buttons-container">
-				<button @click="onNextQuestion">Next</button>
+				<button class="next-button" @click="onNextQuestion">▶</button>
 			</div>
 			<div class="result-text">
 				<span
@@ -46,10 +46,11 @@
 	</div>
 	<div :hidden="!isLoading" class="loading-icon-container"></div>
 	<div v-if="hasFinished" class="result-page-container">
-		<h3>You've finished</h3>
-		<span>your score: </span>
-		<span>{{ correctAnswerCount }} / {{ questions.length }}</span>
-		<button @click="onTryAgain">Try again!</button>
+		<h1>Completed!</h1>
+		<h2>Your score: </h2>
+		<h3 class="score-display">{{ correctAnswerCount }} / {{ questions.length }}</h3>
+		<!-- <button @click="onTryAgain">Try again!</button> -->
+		<LoadingScreen @on-go="onTryAgain" text="Try Again!"></LoadingScreen>
 	</div>
 </template>
 
@@ -88,20 +89,6 @@ onMounted(() => {
 		isLoading.value = false
 	});
 });
-
-// const Setup = () => {
-// 	hasFinished.value = false;
-// 	hasStarted.value = true;
-// 	currentQuestion.value = null;
-
-// 	isTimerAnimated.value = true;
-// 	questionService.FetchHiraganaQuestions().then((data) => {
-// 		questions = data;
-// 		if (data.length > 0) {
-// 			currentQuestion.value = questions[0];
-// 		}
-// 	});
-// };
 
 const onStart = () => {
 	hasStarted.value = true;
@@ -183,6 +170,12 @@ const onTryAgain = () => {
 	background-color: var(--dark);
 	color: var(--light);
 
+	.start-prompt{
+		.title{
+			margin-top: 100px;
+		}
+	}
+
 	.game-container {
 		.question-prompt {
 		}
@@ -240,12 +233,32 @@ const onTryAgain = () => {
 				}
 			}
 		}
-
+		.action-buttons-container{
+			display: flex;
+			justify-content: end;
+			&>button{
+				width: 60px;
+				height: 40px;
+				margin: 30px 60px;
+				color: var(--light);
+				font-size: 1.2em;
+				background-color: var(--grey);
+				border: 0;
+				font-family: inherit;
+				border: 2px solid black;
+				border-radius: 5px;
+				transition: background-color 0.2s ease-out;
+				&:hover{
+					background-color: black;
+				}
+			}
+		}
 		.timer-container {
 			padding: 0 50px;
 			.timer {
 				width: 100%;
 				height: 10px;
+				margin-top: 10px;
 				background-color: var(--light);
 				transition: width linear;
 			}
@@ -256,12 +269,20 @@ const onTryAgain = () => {
 	}
 }
 .result-page-container {
+	background-color: var(--dark);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	& button {
-		width: 50px;
+	color: var(--light);
+	height: 100%;
+	.score-display{
+		margin-top: 0px;
 	}
+
+	
+	// & button {
+	// 	width: 50px;
+	// }
 }
 </style>
