@@ -2,7 +2,8 @@
 	<div v-if="!hasFinished" class="hiragana-page-container">
 		<div :hidden="hasStarted" class="start-prompt">
 			<h2>Learn Hiragana here</h2>
-			<button class="start-button" @click="onStart">Start!</button>
+			<!-- <button class="start-button" @click="onStart">Start!</button> -->
+			<LoadingScreen @on-go="onStart" text="Start!"></LoadingScreen>
 		</div>
 		<div :hidden="!hasStarted" class="game-container">
 			<h2 class="question-prompt">{{ currentQuestion?.promptText }}</h2>
@@ -56,6 +57,7 @@
 import { onMounted, Ref, ref } from "vue";
 import Question from "@/dtos/question-dto";
 import { QuestionService } from "@/services/question-service";
+import LoadingScreen from "@/components/LoadingScreen.vue";
 const hasStarted = ref(false);
 const showCorrectAnswer = ref(false);
 const currentQuestion: Ref<Question | null> = ref(null);

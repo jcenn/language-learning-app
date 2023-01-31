@@ -2,17 +2,32 @@
 	<div class="loading-screen">
 		<div class="circle">
 			<div class="inner-circle" @click="onClickGo">
-				<span class="hover-text">Go!</span>
+				<span class="hover-text">{{ props.text }}</span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { computed, nextTick, onBeforeUpdate, onMounted, onRenderTriggered, onUpdated } from "vue";
+
 const emits = defineEmits(["onGo"]);
+
+const fontSize = computed(()=>{
+	const size = `${100/(props.text.length*0.3)}px`
+	return size;
+})
+
 const onClickGo = () => {
 	emits("onGo");
 };
+const props = defineProps({
+	text: {
+		type: String,
+		default: "Go!",
+	},
+});
+
 </script>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap");
@@ -24,11 +39,11 @@ const onClickGo = () => {
 
 	.circle {
 		$circle-radius: 100px;
-		$border-width: 100px;
-		$horizontal-space: 60px;
+		$border-width: 20px; //100px
+		$horizontal-space: 0px; //60px
 
 		$text-color: var(--light);
-		$text-size: 5em;
+		$text-size: v-bind(fontSize);
 
 		position: absolute;
 		left: calc(50% - $circle-radius - $border-width - $horizontal-space);
@@ -36,7 +51,7 @@ const onClickGo = () => {
 		z-index: 10;
 
 		background: var(--light);
-		border-radius: 5%;
+		border-radius: 50%;
 		width: 2 * calc($circle-radius + $border-width + $horizontal-space);
 		height: 2 * calc($circle-radius + $border-width);
 
@@ -51,7 +66,7 @@ const onClickGo = () => {
 			}
 
 			font-family: "Noto Sans JP", sans-serif;
-			font-size: $text-size;
+			font-size: clamp(26px, $text-size, 96px);
 			bottom: 5px;
 			position: relative;
 			transition: all 0.2s ease-out;
