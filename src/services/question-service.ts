@@ -7,7 +7,12 @@ export class QuestionService {
 		const querySnap = await getDocs(q);
 		const questions = querySnap.docs.map((d) => d.data() as Question);
 
-		if (random) this.shuffleArray(questions);
+		if (random) {
+			this.shuffleArray(questions);
+			questions.forEach((question) => {
+				this.shuffleArray(question.answers);
+			});
+		}
 
 		return questions;
 	}
@@ -16,7 +21,12 @@ export class QuestionService {
 		const querySnap = await getDocs(q);
 		const questions = querySnap.docs.map((d) => d.data() as Question);
 
-		if (random) this.shuffleArray(questions);
+		if (random) {
+			this.shuffleArray(questions);
+			questions.forEach((question) => {
+				this.shuffleArray(question.answers);
+			});
+		}
 
 		return questions;
 	}

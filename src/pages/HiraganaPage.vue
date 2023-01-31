@@ -47,8 +47,10 @@
 	<div :hidden="!isLoading" class="loading-icon-container"></div>
 	<div v-if="hasFinished" class="result-page-container">
 		<h1>Completed!</h1>
-		<h2>Your score: </h2>
-		<h3 class="score-display">{{ correctAnswerCount }} / {{ questions.length }}</h3>
+		<h2>Your score:</h2>
+		<h3 class="score-display">
+			{{ correctAnswerCount }} / {{ questions.length }}
+		</h3>
 		<!-- <button @click="onTryAgain">Try again!</button> -->
 		<LoadingScreen @on-go="onTryAgain" text="Try Again!"></LoadingScreen>
 	</div>
@@ -86,7 +88,7 @@ onMounted(() => {
 		if (data.length > 0) {
 			currentQuestion.value = questions[0];
 		}
-		isLoading.value = false
+		isLoading.value = false;
 	});
 });
 
@@ -162,6 +164,14 @@ const onTryAgain = () => {
 
 	// Setup();
 };
+
+// Durstenfeld shuffle
+function shuffleArray(array: any[]) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+}
 </script>
 
 <style lang="scss">
@@ -170,8 +180,8 @@ const onTryAgain = () => {
 	background-color: var(--dark);
 	color: var(--light);
 
-	.start-prompt{
-		.title{
+	.start-prompt {
+		.title {
 			margin-top: 100px;
 		}
 	}
@@ -233,10 +243,10 @@ const onTryAgain = () => {
 				}
 			}
 		}
-		.action-buttons-container{
+		.action-buttons-container {
 			display: flex;
 			justify-content: end;
-			&>button{
+			& > button {
 				width: 60px;
 				height: 40px;
 				margin: 30px 60px;
@@ -248,8 +258,9 @@ const onTryAgain = () => {
 				border: 2px solid black;
 				border-radius: 5px;
 				transition: background-color 0.2s ease-out;
-				&:hover{
+				&:hover {
 					background-color: black;
+					cursor: pointer;
 				}
 			}
 		}
@@ -276,11 +287,10 @@ const onTryAgain = () => {
 	align-items: center;
 	color: var(--light);
 	height: 100%;
-	.score-display{
+	.score-display {
 		margin-top: 0px;
 	}
 
-	
 	// & button {
 	// 	width: 50px;
 	// }
