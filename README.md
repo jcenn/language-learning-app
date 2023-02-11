@@ -5,6 +5,12 @@ Web app for practicing japanese
 Project made with vue 3 and firebase as backend
 
 (work in progress)
+```
+branches: 
+> master => latest complete version, deploying to firebase hosting
+> dev => main development branch
+  > feature/* => current feature branches
+```
 ---
 # Default readme:
 
