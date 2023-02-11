@@ -11,6 +11,8 @@ branches:
 > dev => main development branch
   > feature/* => current feature branches
 ```
+preview: https://nihon-go-2e7e1.firebaseapp.com
+
 ---
 # Default readme:
 
