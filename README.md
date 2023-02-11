@@ -1,10 +1,12 @@
 # nihon-go
 
-Web app used for japanese
-Project made to practice using vue 3 and firebase
+Web app for practicing japanese
 
+Project made with vue 3 and firebase as backend
+
+(work in progress)
 ---
-Default readme
+# Default readme:
 
 ## Project setup
 ```
