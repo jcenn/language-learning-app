@@ -4,12 +4,12 @@
 			<LoadingScreen @on-go="onLoadingScreenClosed"></LoadingScreen>
 		</div>
 		<div v-show="isLoaded" class="homepage-main">
-			<h1>What would you like to practice today?</h1>
+			<h1>Co chciałbyś/chciałabyć dzisiaj ćwiczyć?</h1>
 			<div class="tiles">
 				<IconTile text="Hiragana" icon-text="あ" navigate-to="hiragana"/>
-				<IconTile text="Katakana" icon-text="ツ" navigate-to="katakana"/>
-				<IconTile text="Kanji" icon-text="人" navigate-to="kanji"/>
-				<IconTile text="Lessons" icon-text="📖" navigate-to="lessons"/>
+				<!-- <IconTile text="Katakana" icon-text="ツ" navigate-to="katakana"/> -->
+				<!-- <IconTile text="Kanji" icon-text="人" navigate-to="kanji"/> -->
+				<!-- <IconTile text="Lessons" icon-text="📖" navigate-to="lessons"/> -->
 
 			</div>
 		</div>
