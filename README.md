@@ -7,7 +7,7 @@ Project made using vue 3 and firebase
 (work in progress)
 ```
 branches: 
-> master => latest complete version, deploying to firebase hosting
+> master => latest working version, used for deploying to firebase hosting
 > dev => main development branch
   > feature/* => current feature branches
 ```
