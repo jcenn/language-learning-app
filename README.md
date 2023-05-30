@@ -2,7 +2,7 @@
 
 Web app for practicing japanese
 
-Project made using vue 3 and firebase
+Project was made using vue.js 3 and firebase
 
 (work in progress)
 ```
