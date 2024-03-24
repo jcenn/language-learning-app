@@ -2,9 +2,9 @@
 
 Web app for practicing japanese
 
-Project was made using vue 3 and firebase as backend
+Project uses vue 3 and firebase as backend
 
-(work in progress)
+(abandoned for now)
 ```
 branches: 
 > master => latest release candidate, used for deploying to firebase hosting
